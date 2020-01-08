@@ -3,9 +3,11 @@ package netty;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import netty.client.packet.LoginRequestPacket;
+import netty.client.packet.MessageRequestPacket;
 import netty.serialize.JSONSerializer;
 import netty.serialize.Serializer;
 import netty.server.packet.LoginResponsePacket;
+import netty.server.packet.MessageResponsePacket;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +29,8 @@ public class PacketCodec {
         packetTypeMap = new HashMap<>();
         packetTypeMap.put(Command.LOGIN_REQUEST, LoginRequestPacket.class);
         packetTypeMap.put(Command.LOGIN_RESPONSE, LoginResponsePacket.class);
+        packetTypeMap.put(Command.MESSAGE_REQUEST, MessageRequestPacket.class);
+        packetTypeMap.put(Command.MESSAGE_RESPONSE, MessageResponsePacket.class);
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JSONSerializer();

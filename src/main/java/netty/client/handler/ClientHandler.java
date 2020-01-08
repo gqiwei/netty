@@ -7,6 +7,7 @@ import netty.Packet;
 import netty.PacketCodec;
 import netty.client.packet.LoginRequestPacket;
 import netty.server.packet.LoginResponsePacket;
+import netty.server.packet.MessageResponsePacket;
 
 import java.nio.charset.Charset;
 import java.util.UUID;
@@ -40,7 +41,9 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
         if(packet instanceof LoginResponsePacket){
             LoginResponsePacket loginResponsePacket = (LoginResponsePacket) packet;
             System.out.println(loginResponsePacket.getMessage());
-
+        }else if(packet instanceof MessageResponsePacket){
+            MessageResponsePacket messageResponsePacket = (MessageResponsePacket) packet;
+            System.out.println("来自服务端的消息："+messageResponsePacket.getMessage());
         }
     }
 }

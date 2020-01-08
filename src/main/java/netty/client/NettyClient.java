@@ -1,12 +1,18 @@
 package netty.client;
 
 import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
+import netty.PacketCodec;
 import netty.client.handler.ClientHandler;
+import netty.client.packet.MessageRequestPacket;
+
+import java.util.Scanner;
 
 /**
  * @author gqw
@@ -41,6 +47,7 @@ public class NettyClient {
             public void operationComplete(Future<? super Void> future) throws Exception {
                 if(future.isSuccess()){
                     System.out.println("连接服务成功");
+                    sendMessage(((ChannelFuture) future).channel());
                 }else if(max==0){
                     System.out.println("尝试次数剩余0");
                 }else{
@@ -49,5 +56,25 @@ public class NettyClient {
                 }
             }
         });
+    }
+
+    public static void sendMessage(Channel channel){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                while(!Thread.interrupted()){
+                    Scanner sc = new Scanner(System.in);
+                    String line = sc.nextLine();
+
+                    MessageRequestPacket messageRequestPacket = new MessageRequestPacket();
+                    messageRequestPacket.setMessage(line);
+                    channel.writeAndFlush(PacketCodec.INSTANCE.encode(messageRequestPacket));
+
+                }
+
+
+            }
+        }).start();
     }
 }
