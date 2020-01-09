@@ -9,8 +9,11 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import netty.PacketCodec;
-import netty.client.handler.ClientHandler;
+import netty.client.handler.LoginRequestHandler;
+import netty.client.handler.MessageRequestHandler;
 import netty.client.packet.MessageRequestPacket;
+import netty.codec.PacketDecoder;
+import netty.codec.PacketEncoder;
 
 import java.util.Scanner;
 
@@ -35,7 +38,10 @@ public class NettyClient {
                 .channel(NioSocketChannel.class)
                 .handler(new ChannelInitializer<NioSocketChannel>() {
                     protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
-                        nioSocketChannel.pipeline().addLast(new ClientHandler());
+                        nioSocketChannel.pipeline().addLast(new PacketDecoder());
+                        nioSocketChannel.pipeline().addLast(new LoginRequestHandler());
+                        nioSocketChannel.pipeline().addLast(new MessageRequestHandler());
+                        nioSocketChannel.pipeline().addLast(new PacketEncoder());
                     }
                 });
 
@@ -69,7 +75,7 @@ public class NettyClient {
 
                     MessageRequestPacket messageRequestPacket = new MessageRequestPacket();
                     messageRequestPacket.setMessage(line);
-                    channel.writeAndFlush(PacketCodec.INSTANCE.encode(messageRequestPacket));
+                    channel.writeAndFlush(messageRequestPacket);
 
                 }
 

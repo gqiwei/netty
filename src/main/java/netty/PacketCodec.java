@@ -42,8 +42,8 @@ public class PacketCodec {
      * @param packet
      * @return
      */
-    public ByteBuf encode(Packet packet){
-        ByteBuf byteBuf = ByteBufAllocator.DEFAULT.buffer();
+    public void encode(Packet packet,ByteBuf byteBuf){
+//        ByteBuf byteBuf = ByteBufAllocator.DEFAULT.buffer();
 
         byte[] bytes = Serializer.DEFAULT.serialize(packet);
 
@@ -56,7 +56,7 @@ public class PacketCodec {
         byteBuf.writeInt(bytes.length);//写入发送信息的长度
         byteBuf.writeBytes(bytes);//写入消息体
 
-        return byteBuf;
+//        return byteBuf;
     }
 
     /**
