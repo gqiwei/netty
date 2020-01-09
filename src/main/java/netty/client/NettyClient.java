@@ -12,6 +12,7 @@ import netty.PacketCodec;
 import netty.client.handler.LoginRequestHandler;
 import netty.client.handler.MessageRequestHandler;
 import netty.client.packet.MessageRequestPacket;
+import netty.client.packet.Spliter;
 import netty.codec.PacketDecoder;
 import netty.codec.PacketEncoder;
 
@@ -38,6 +39,7 @@ public class NettyClient {
                 .channel(NioSocketChannel.class)
                 .handler(new ChannelInitializer<NioSocketChannel>() {
                     protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
+                        nioSocketChannel.pipeline().addLast(new Spliter());
                         nioSocketChannel.pipeline().addLast(new PacketDecoder());
                         nioSocketChannel.pipeline().addLast(new LoginRequestHandler());
                         nioSocketChannel.pipeline().addLast(new MessageRequestHandler());

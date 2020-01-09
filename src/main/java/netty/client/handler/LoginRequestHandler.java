@@ -30,4 +30,9 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginRespon
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, LoginResponsePacket loginResponsePacket) throws Exception {
         System.out.println(loginResponsePacket.getMessage());
     }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) {
+        System.out.println("客户端连接被关闭!");
+    }
 }

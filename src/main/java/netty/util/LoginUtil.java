@@ -20,8 +20,10 @@ public class LoginUtil {
         Attribute<Boolean> attributeKey =channel.attr(Attributes.LOGIN);
         if(attributeKey ==null){
             return false;
+        }else if(attributeKey.get()==null){
+            return false;
         }else if(attributeKey.get()){
-            return true;
+            return  true;
         }
 
         return false;

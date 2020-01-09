@@ -19,7 +19,7 @@ import java.util.Map;
  * @date 2020-01-08
  */
 public class PacketCodec {
-    private static final int MAGIC_NUMBER = 0x12345678; //魔数
+    public static final int MAGIC_NUMBER = 0x12345678; //魔数
     public static final PacketCodec INSTANCE = new PacketCodec();
 
     private final Map<Byte,Class<? extends Packet>> packetTypeMap;

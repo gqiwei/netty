@@ -7,8 +7,11 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
+import netty.client.packet.Spliter;
 import netty.codec.PacketDecoder;
 import netty.codec.PacketEncoder;
+import netty.server.handler.AuthHandler;
+import netty.server.handler.LifeCycleTestHandler;
 import netty.server.handler.LoginResponseHandler;
 import netty.server.handler.MessageResponseHandler;
 
@@ -34,8 +37,11 @@ public class NettyServer {
                 .channel(NioServerSocketChannel.class) //绑定IO模型
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
+//                        nioSocketChannel.pipeline().addLast(new Spliter());
+//                        nioSocketChannel.pipeline().addLast(new LifeCycleTestHandler());
                         nioSocketChannel.pipeline().addLast(new PacketDecoder());
                         nioSocketChannel.pipeline().addLast(new LoginResponseHandler());
+                        nioSocketChannel.pipeline().addLast(new AuthHandler());
                         nioSocketChannel.pipeline().addLast(new MessageResponseHandler());
                         nioSocketChannel.pipeline().addLast(new PacketEncoder());
                     }
