@@ -37,7 +37,7 @@ public class NettyServer {
                 .channel(NioServerSocketChannel.class) //绑定IO模型
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
-//                        nioSocketChannel.pipeline().addLast(new Spliter());
+                        nioSocketChannel.pipeline().addLast(new Spliter());
 //                        nioSocketChannel.pipeline().addLast(new LifeCycleTestHandler());
                         nioSocketChannel.pipeline().addLast(new PacketDecoder());
                         nioSocketChannel.pipeline().addLast(new LoginResponseHandler());
