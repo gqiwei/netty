@@ -10,10 +10,7 @@ import io.netty.util.concurrent.GenericFutureListener;
 import netty.client.packet.Spliter;
 import netty.codec.PacketDecoder;
 import netty.codec.PacketEncoder;
-import netty.server.handler.AuthHandler;
-import netty.server.handler.LifeCycleTestHandler;
-import netty.server.handler.LoginResponseHandler;
-import netty.server.handler.MessageResponseHandler;
+import netty.server.handler.*;
 
 /**
  * @author gqw
@@ -42,6 +39,7 @@ public class NettyServer {
                         nioSocketChannel.pipeline().addLast(new PacketDecoder());
                         nioSocketChannel.pipeline().addLast(new LoginResponseHandler());
                         nioSocketChannel.pipeline().addLast(new AuthHandler());
+                        nioSocketChannel.pipeline().addLast(new CreateGroupResponseHandler());
                         nioSocketChannel.pipeline().addLast(new MessageResponseHandler());
                         nioSocketChannel.pipeline().addLast(new PacketEncoder());
                     }

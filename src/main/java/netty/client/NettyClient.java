@@ -11,6 +11,7 @@ import io.netty.util.concurrent.GenericFutureListener;
 import netty.PacketCodec;
 import netty.client.console.ConsoleCommandManager;
 import netty.client.console.LoginConsoleCommand;
+import netty.client.handler.CreateGroupRequestHandler;
 import netty.client.handler.LoginRequestHandler;
 import netty.client.handler.MessageRequestHandler;
 import netty.client.packet.LoginRequestPacket;
@@ -48,6 +49,7 @@ public class NettyClient {
                         nioSocketChannel.pipeline().addLast(new Spliter());
                         nioSocketChannel.pipeline().addLast(new PacketDecoder());
                         nioSocketChannel.pipeline().addLast(new LoginRequestHandler());
+                        nioSocketChannel.pipeline().addLast(new CreateGroupRequestHandler());
                         nioSocketChannel.pipeline().addLast(new MessageRequestHandler());
                         nioSocketChannel.pipeline().addLast(new PacketEncoder());
                     }
