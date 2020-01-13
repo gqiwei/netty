@@ -9,6 +9,8 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import netty.PacketCodec;
+import netty.client.console.ConsoleCommandManager;
+import netty.client.console.LoginConsoleCommand;
 import netty.client.handler.LoginRequestHandler;
 import netty.client.handler.MessageRequestHandler;
 import netty.client.packet.LoginRequestPacket;
@@ -71,6 +73,9 @@ public class NettyClient {
     }
 
     public static void sendMessage(final Channel channel){
+        LoginConsoleCommand loginConsoleCommand = new LoginConsoleCommand();
+        ConsoleCommandManager consoleCommandManager = new ConsoleCommandManager();
+        Scanner scanner = new Scanner(System.in);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -78,31 +83,10 @@ public class NettyClient {
                 while(!Thread.interrupted()){
 
                     if(SessionUtil.hasLogin(channel)){//已登录
-                        Scanner sc = new Scanner(System.in);
-                        String toUserId = sc.nextLine();
-                        String message = sc.nextLine();
-                        MessageRequestPacket messageRequestPacket = new MessageRequestPacket();
-                        messageRequestPacket.setUserId(toUserId);
-                        messageRequestPacket.setMessage(message);
-                        channel.writeAndFlush(messageRequestPacket);
+                        consoleCommandManager.exec(scanner,channel);
                     }else{
-                        System.out.println("请输入账号");
-                        Scanner sc = new Scanner(System.in);
-                        String userName = sc.nextLine();
-
-                        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
-                        loginRequestPacket.setPassword("123456");
-                        loginRequestPacket.setUsername(userName);
-                        channel.writeAndFlush(loginRequestPacket);
-
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException ignored) {
-                        }
+                        loginConsoleCommand.exec(scanner,channel);
                     }
-
-
-
                 }
 
 
