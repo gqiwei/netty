@@ -13,6 +13,7 @@ import static netty.Command.MESSAGE_RESPONSE;
  */
 @Data
 public class MessageResponsePacket extends Packet {
+    private String fromUserId;
 
     private String message;
 

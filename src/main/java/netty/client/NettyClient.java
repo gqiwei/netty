@@ -11,12 +11,15 @@ import io.netty.util.concurrent.GenericFutureListener;
 import netty.PacketCodec;
 import netty.client.handler.LoginRequestHandler;
 import netty.client.handler.MessageRequestHandler;
+import netty.client.packet.LoginRequestPacket;
 import netty.client.packet.MessageRequestPacket;
 import netty.client.packet.Spliter;
 import netty.codec.PacketDecoder;
 import netty.codec.PacketEncoder;
+import netty.util.SessionUtil;
 
 import java.util.Scanner;
+import java.util.UUID;
 
 /**
  * @author gqw
@@ -28,6 +31,7 @@ public class NettyClient {
     private static final String HOST = "10.0.6.98";
     private static final int PORT = 8080;
     private static final int MAX=4;
+
 
     public static void main(String[] args) {
         NioEventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -72,12 +76,32 @@ public class NettyClient {
             public void run() {
 
                 while(!Thread.interrupted()){
-                    Scanner sc = new Scanner(System.in);
-                    String line = sc.nextLine();
 
-                    MessageRequestPacket messageRequestPacket = new MessageRequestPacket();
-                    messageRequestPacket.setMessage(line);
-                    channel.writeAndFlush(messageRequestPacket);
+                    if(SessionUtil.hasLogin(channel)){//已登录
+                        Scanner sc = new Scanner(System.in);
+                        String toUserId = sc.nextLine();
+                        String message = sc.nextLine();
+                        MessageRequestPacket messageRequestPacket = new MessageRequestPacket();
+                        messageRequestPacket.setUserId(toUserId);
+                        messageRequestPacket.setMessage(message);
+                        channel.writeAndFlush(messageRequestPacket);
+                    }else{
+                        System.out.println("请输入账号");
+                        Scanner sc = new Scanner(System.in);
+                        String userName = sc.nextLine();
+
+                        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
+                        loginRequestPacket.setPassword("123456");
+                        loginRequestPacket.setUsername(userName);
+                        channel.writeAndFlush(loginRequestPacket);
+
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException ignored) {
+                        }
+                    }
+
+
 
                 }
 

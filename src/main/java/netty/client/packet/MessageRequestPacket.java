@@ -13,6 +13,7 @@ import static netty.Command.MESSAGE_REQUEST;
  */
 @Data
 public class MessageRequestPacket extends Packet {
+    private String userId;
     private String message;
 
     @Override

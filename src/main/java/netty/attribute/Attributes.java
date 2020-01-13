@@ -1,6 +1,7 @@
 package netty.attribute;
 
 import io.netty.util.AttributeKey;
+import netty.session.Session;
 
 /**
  * @author gqw
@@ -10,4 +11,5 @@ import io.netty.util.AttributeKey;
  */
 public interface Attributes {
     AttributeKey<Boolean> LOGIN = AttributeKey.newInstance("login");
+    AttributeKey<Session> SESSION = AttributeKey.newInstance("session");
 }

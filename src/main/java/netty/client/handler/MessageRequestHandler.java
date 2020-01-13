@@ -13,6 +13,6 @@ import netty.server.packet.MessageResponsePacket;
 public class MessageRequestHandler extends SimpleChannelInboundHandler<MessageResponsePacket> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, MessageResponsePacket messageResponsePacket) throws Exception {
-        System.out.println("来自服务端的消息："+messageResponsePacket.getMessage());
+        System.out.println("来自服务端的消息----> "+messageResponsePacket.getMessage());
     }
 }
