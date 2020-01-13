@@ -70,7 +70,7 @@ public class NettyClient {
         });
     }
 
-    public static void sendMessage(Channel channel){
+    public static void sendMessage(final Channel channel){
         new Thread(new Runnable() {
             @Override
             public void run() {
