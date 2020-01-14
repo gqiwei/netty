@@ -1,6 +1,7 @@
 package netty.util;
 
 import io.netty.channel.Channel;
+import io.netty.channel.group.ChannelGroup;
 import netty.attribute.Attributes;
 import netty.session.Session;
 
@@ -15,6 +16,7 @@ import java.util.Map;
  */
 public class SessionUtil {
     private static final Map<String, Channel> userIdChannelMap = new HashMap<String,Channel>();
+    private static final Map<String, ChannelGroup> channelGroupMap =new HashMap<String,ChannelGroup>();
 
     public static void bindSession(Session session, Channel channel){
         userIdChannelMap.put(session.getUserId(),channel);
@@ -42,5 +44,11 @@ public class SessionUtil {
         return userIdChannelMap.get(userId);
     }
 
+    public static void bindChannelGroup(String groupId,ChannelGroup channels){
+        channelGroupMap.put(groupId,channels);
+    }
 
+    public static ChannelGroup getChannelGroup(String groupId){
+        return channelGroupMap.get(groupId);
+    }
 }

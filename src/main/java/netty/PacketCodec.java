@@ -2,14 +2,10 @@ package netty;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
-import netty.client.packet.CreateGroupRequestPacket;
-import netty.client.packet.LoginRequestPacket;
-import netty.client.packet.MessageRequestPacket;
+import netty.client.packet.*;
 import netty.serialize.JSONSerializer;
 import netty.serialize.Serializer;
-import netty.server.packet.CreateGroupResponsePacket;
-import netty.server.packet.LoginResponsePacket;
-import netty.server.packet.MessageResponsePacket;
+import netty.server.packet.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +31,12 @@ public class PacketCodec {
         packetTypeMap.put(Command.MESSAGE_RESPONSE, MessageResponsePacket.class);
         packetTypeMap.put(Command.CREATEGROUP_REQUEST, CreateGroupRequestPacket.class);
         packetTypeMap.put(Command.CREATEGROUP_RESPONSE, CreateGroupResponsePacket.class);
+        packetTypeMap.put(Command.JOINGROUP_REQUEST, JoinGroupRequestPacket.class);
+        packetTypeMap.put(Command.JOINGROUP_RESPONSE, JoinGroupResponsePacket.class);
+        packetTypeMap.put(Command.QUITGROUP_REQUEST, QuitGroupRequestPacket.class);
+        packetTypeMap.put(Command.QUITGROUP_RESPONSE, QuitGroupResponsePacket.class);
+        packetTypeMap.put(Command.LISTGROUPMEMBERS_REQUEST,ListGroupMembersRequestPacket.class);
+        packetTypeMap.put(Command.LISTGROUPMEMBERS_RESPONSE,ListGroupMembersResponsePacket.class);
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JSONSerializer();

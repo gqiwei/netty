@@ -36,12 +36,16 @@ public class CreateGroupResponseHandler extends SimpleChannelInboundHandler<Crea
         }
 
         CreateGroupResponsePacket createGroupResponsePacket = new CreateGroupResponsePacket();
+        String groupId =UUID.randomUUID().toString();
         createGroupResponsePacket.setCode(1);
-        createGroupResponsePacket.setMessage("创建成功");
+        createGroupResponsePacket.setMessage("`"+groupId+"`群组创建成功");
         createGroupResponsePacket.setUserNameList(userNameList);
-        createGroupResponsePacket.setGroupId(UUID.randomUUID().toString());
+        createGroupResponsePacket.setGroupId(groupId);
+
+        SessionUtil.bindChannelGroup(groupId,channelGroup);
 
         channelGroup.writeAndFlush(createGroupResponsePacket);
+
         System.out.println("群`"+createGroupResponsePacket.getGroupId()+"`创建成功。");
         System.out.println("组员："+createGroupResponsePacket.getUserNameList());
 
