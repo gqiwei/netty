@@ -51,6 +51,7 @@ public class NettyClient {
                         nioSocketChannel.pipeline().addLast(JoinGroupRequestHandler.INSTANCE);
                         nioSocketChannel.pipeline().addLast(QuitGroupRequestHandler.INSTANCE);
                         nioSocketChannel.pipeline().addLast(ListGroupMembersRequestHandler.INSTANCE);
+                        nioSocketChannel.pipeline().addLast(new GroupMessageRequestHandler());
                         nioSocketChannel.pipeline().addLast(MessageRequestHandler.INSTANCE);
                         nioSocketChannel.pipeline().addLast(new PacketEncoder());
                     }

@@ -22,11 +22,12 @@ public class IMHandler extends SimpleChannelInboundHandler<Packet> {
 
     public IMHandler(){
         handlerMap = new HashMap<>();
-        handlerMap.put(Command.CREATEGROUP_RESPONSE,CreateGroupResponseHandler.INSTANCE);
-        handlerMap.put(Command.JOINGROUP_RESPONSE,JoinGroupResponseHandler.INSTANCE);
-        handlerMap.put(Command.LISTGROUPMEMBERS_RESPONSE,ListGroupMembersResponseHandler.INSTANCE);
-        handlerMap.put(Command.MESSAGE_RESPONSE,MessageResponseHandler.INSTANCE);
-        handlerMap.put(Command.QUITGROUP_RESPONSE,QuitGroupResponseHandler.INSTANCE);
+        handlerMap.put(Command.CREATEGROUP_REQUEST,CreateGroupResponseHandler.INSTANCE);
+        handlerMap.put(Command.JOINGROUP_REQUEST,JoinGroupResponseHandler.INSTANCE);
+        handlerMap.put(Command.LISTGROUPMEMBERS_REQUEST,ListGroupMembersResponseHandler.INSTANCE);
+        handlerMap.put(Command.MESSAGE_REQUEST,MessageResponseHandler.INSTANCE);
+        handlerMap.put(Command.QUITGROUP_REQUEST,QuitGroupResponseHandler.INSTANCE);
+        handlerMap.put(Command.GROUPMESSAGE_REQUEST,GroupMessageResponseHandler.INSTANCE);
     }
 
     @Override
