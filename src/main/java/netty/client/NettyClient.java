@@ -46,12 +46,12 @@ public class NettyClient {
                     protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
                         nioSocketChannel.pipeline().addLast(new Spliter());
                         nioSocketChannel.pipeline().addLast(new PacketDecoder());
-                        nioSocketChannel.pipeline().addLast(new LoginRequestHandler());
-                        nioSocketChannel.pipeline().addLast(new CreateGroupRequestHandler());
-                        nioSocketChannel.pipeline().addLast(new JoinGroupRequestHandler());
-                        nioSocketChannel.pipeline().addLast(new QuitGroupRequestHandler());
-                        nioSocketChannel.pipeline().addLast(new ListGroupMembersRequestHandler());
-                        nioSocketChannel.pipeline().addLast(new MessageRequestHandler());
+                        nioSocketChannel.pipeline().addLast(LoginRequestHandler.INSTANCE);
+                        nioSocketChannel.pipeline().addLast(CreateGroupRequestHandler.INSTANCE);
+                        nioSocketChannel.pipeline().addLast(JoinGroupRequestHandler.INSTANCE);
+                        nioSocketChannel.pipeline().addLast(QuitGroupRequestHandler.INSTANCE);
+                        nioSocketChannel.pipeline().addLast(ListGroupMembersRequestHandler.INSTANCE);
+                        nioSocketChannel.pipeline().addLast(MessageRequestHandler.INSTANCE);
                         nioSocketChannel.pipeline().addLast(new PacketEncoder());
                     }
                 });

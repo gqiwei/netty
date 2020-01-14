@@ -1,5 +1,6 @@
 package netty.server.handler;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import netty.PacketCodec;
@@ -17,7 +18,9 @@ import java.util.UUID;
  * @description
  * @date 2020-01-09
  */
+@ChannelHandler.Sharable
 public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
+    public static final LoginResponseHandler INSTANCE = new LoginResponseHandler();
     private  static int num =0;
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket loginRequestPacket) throws Exception {

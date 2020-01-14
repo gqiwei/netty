@@ -1,6 +1,7 @@
 package netty.client.handler;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import netty.client.packet.LoginRequestPacket;
@@ -17,7 +18,9 @@ import java.util.UUID;
  * @description
  * @date 2020-01-09
  */
+@ChannelHandler.Sharable
 public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginResponsePacket> {
+    public static final LoginRequestHandler INSTANCE= new LoginRequestHandler();
     @Override
     public void channelActive(ChannelHandlerContext ctx){
         LoginRequestPacket loginRequestPacket = new LoginRequestPacket();

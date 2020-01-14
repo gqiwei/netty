@@ -1,6 +1,7 @@
 package netty.server.handler;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import netty.PacketCodec;
@@ -15,7 +16,9 @@ import netty.util.SessionUtil;
  * @description
  * @date 2020-01-09
  */
+@ChannelHandler.Sharable
 public class MessageResponseHandler extends SimpleChannelInboundHandler<MessageRequestPacket> {
+    public static final MessageResponseHandler INSTANCE = new MessageResponseHandler();
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageRequestPacket messageRequestPacket) throws Exception {
 

@@ -8,6 +8,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import netty.client.packet.Spliter;
+import netty.codec.PacketCodecHandler;
 import netty.codec.PacketDecoder;
 import netty.codec.PacketEncoder;
 import netty.server.handler.*;
@@ -36,15 +37,17 @@ public class NettyServer {
                     protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
                         nioSocketChannel.pipeline().addLast(new Spliter());
 //                        nioSocketChannel.pipeline().addLast(new LifeCycleTestHandler());
-                        nioSocketChannel.pipeline().addLast(new PacketDecoder());
-                        nioSocketChannel.pipeline().addLast(new LoginResponseHandler());
-                        nioSocketChannel.pipeline().addLast(new AuthHandler());
-                        nioSocketChannel.pipeline().addLast(new CreateGroupResponseHandler());
-                        nioSocketChannel.pipeline().addLast(new JoinGroupResponseHandler());
-                        nioSocketChannel.pipeline().addLast(new QuitGroupResponseHandler());
-                        nioSocketChannel.pipeline().addLast(new ListGroupMembersResponseHandler());
-                        nioSocketChannel.pipeline().addLast(new MessageResponseHandler());
-                        nioSocketChannel.pipeline().addLast(new PacketEncoder());
+//                        nioSocketChannel.pipeline().addLast(new PacketDecoder());
+                        nioSocketChannel.pipeline().addLast(PacketCodecHandler.INSTANCE);
+                        nioSocketChannel.pipeline().addLast(LoginResponseHandler.INSTANCE);
+                        nioSocketChannel.pipeline().addLast(AuthHandler.INSTANCE);
+                        nioSocketChannel.pipeline().addLast(IMHandler.INSTANCE);
+//                        nioSocketChannel.pipeline().addLast(CreateGroupResponseHandler.INSTANCE);
+//                        nioSocketChannel.pipeline().addLast(JoinGroupResponseHandler.INSTANCE);
+//                        nioSocketChannel.pipeline().addLast(QuitGroupResponseHandler.INSTANCE);
+//                        nioSocketChannel.pipeline().addLast(ListGroupMembersResponseHandler.INSTANCE);
+//                        nioSocketChannel.pipeline().addLast(MessageResponseHandler.INSTANCE);
+//                        nioSocketChannel.pipeline().addLast(new PacketEncoder());
                     }
                 });
         bind(serverBootstrap,PORT,MAX);
