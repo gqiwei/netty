@@ -57,7 +57,6 @@ public class NettyClient {
                         nioSocketChannel.pipeline().addLast(new GroupMessageRequestHandler());
                         nioSocketChannel.pipeline().addLast(MessageRequestHandler.INSTANCE);
                         nioSocketChannel.pipeline().addLast(new PacketEncoder());
-                        nioSocketChannel.pipeline().addLast(new LifeCycleTestHandler());
                         nioSocketChannel.pipeline().addLast(new HeartBeatTimerHandler());
                     }
                 });
