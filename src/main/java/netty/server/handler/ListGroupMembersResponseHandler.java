@@ -26,18 +26,22 @@ public class ListGroupMembersResponseHandler extends SimpleChannelInboundHandler
         String groupId = listGroupMembersRequestPacket.getGroupId();
         ChannelGroup channelGroup = SessionUtil.getChannelGroup(groupId);
 
-
-        List<Session> sessionList = new ArrayList<Session>();
-        for(Channel channel: channelGroup){
-            Session session =SessionUtil.getSession(channel);
-            sessionList.add(session);
-        }
-
         ListGroupMembersResponsePacket listGroupMembersResponsePacket = new ListGroupMembersResponsePacket();
-        listGroupMembersResponsePacket.setCode(1);
-        listGroupMembersResponsePacket.setGroupId(groupId);
-        listGroupMembersResponsePacket.setMessage("查询成功");
-        listGroupMembersResponsePacket.setSessionList(sessionList);
+        if(channelGroup!=null){
+            List<Session> sessionList = new ArrayList<Session>();
+            for(Channel channel: channelGroup){
+                Session session =SessionUtil.getSession(channel);
+                sessionList.add(session);
+            }
+            listGroupMembersResponsePacket.setCode(1);
+            listGroupMembersResponsePacket.setGroupId(groupId);
+            listGroupMembersResponsePacket.setMessage("查询成功");
+            listGroupMembersResponsePacket.setSessionList(sessionList);
+        }else{
+            listGroupMembersResponsePacket.setCode(2);
+            listGroupMembersResponsePacket.setGroupId(groupId);
+            listGroupMembersResponsePacket.setMessage("`"+groupId+"`群组不存在");
+        }
 
         channelHandlerContext.channel().writeAndFlush(listGroupMembersResponsePacket);
     }

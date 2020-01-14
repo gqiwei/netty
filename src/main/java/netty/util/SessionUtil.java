@@ -51,4 +51,8 @@ public class SessionUtil {
     public static ChannelGroup getChannelGroup(String groupId){
         return channelGroupMap.get(groupId);
     }
+
+    public static void unBindChannelGroup(String groupId){
+        channelGroupMap.remove(groupId);
+    }
 }

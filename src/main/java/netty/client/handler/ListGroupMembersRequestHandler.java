@@ -14,6 +14,11 @@ import netty.server.packet.QuitGroupResponsePacket;
 public class ListGroupMembersRequestHandler extends SimpleChannelInboundHandler<ListGroupMembersResponsePacket> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, ListGroupMembersResponsePacket listGroupMembersResponsePacket) throws Exception {
-        System.out.println("`"+listGroupMembersResponsePacket.getGroupId()+"`组中群员为："+ listGroupMembersResponsePacket.getSessionList());
+        if(listGroupMembersResponsePacket.getCode()==1){
+            System.out.println("`"+listGroupMembersResponsePacket.getGroupId()+"`组中群员为："+ listGroupMembersResponsePacket.getSessionList());
+        }else{
+            System.out.println(listGroupMembersResponsePacket.getMessage());
+        }
+
     }
 }

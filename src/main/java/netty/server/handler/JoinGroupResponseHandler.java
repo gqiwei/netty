@@ -18,12 +18,20 @@ public class JoinGroupResponseHandler extends SimpleChannelInboundHandler<JoinGr
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, JoinGroupRequestPacket joinGroupRequestPacket) throws Exception {
         String groupId = joinGroupRequestPacket.getGroupId();
         ChannelGroup channelGroup = SessionUtil.getChannelGroup(groupId);
-        channelGroup.add(channelHandlerContext.channel());
 
         JoinGroupResponsePacket joinGroupResponsePacket = new JoinGroupResponsePacket();
-        joinGroupResponsePacket.setCode(1);
-        joinGroupResponsePacket.setGroupId(groupId);
-        joinGroupResponsePacket.setMessage("成功加入群组`"+groupId+"`");
+        if(channelGroup!=null){
+            channelGroup.add(channelHandlerContext.channel());
+            joinGroupResponsePacket.setCode(1);
+            joinGroupResponsePacket.setGroupId(groupId);
+            joinGroupResponsePacket.setMessage("成功加入群组`"+groupId+"`");
+        }else{
+            joinGroupResponsePacket.setCode(2);
+            joinGroupResponsePacket.setGroupId(groupId);
+            joinGroupResponsePacket.setMessage("`"+groupId+"`群组不存在");
+        }
+
+
         channelHandlerContext.channel().writeAndFlush(joinGroupResponsePacket);
     }
 }

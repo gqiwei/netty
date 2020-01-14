@@ -20,12 +20,21 @@ public class QuitGroupResponseHandler extends SimpleChannelInboundHandler<QuitGr
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, QuitGroupRequestPacket quitGroupRequestPacket) throws Exception {
         String groupId = quitGroupRequestPacket.getGroupId();
         ChannelGroup channelGroup = SessionUtil.getChannelGroup(groupId);
-        channelGroup.remove(channelHandlerContext.channel());
 
         QuitGroupResponsePacket quitGroupResponsePacket = new QuitGroupResponsePacket();
-        quitGroupResponsePacket.setCode(1);
-        quitGroupResponsePacket.setGroupId(groupId);
-        quitGroupResponsePacket.setMessage("成功退出群组`"+groupId+"`");
+        if(channelGroup!=null){
+            channelGroup.remove(channelHandlerContext.channel());
+            if(channelGroup.size()==0){
+                SessionUtil.unBindChannelGroup(groupId);
+            }
+            quitGroupResponsePacket.setCode(1);
+            quitGroupResponsePacket.setGroupId(groupId);
+            quitGroupResponsePacket.setMessage("成功退出群组`"+groupId+"`");
+        }else{
+            quitGroupResponsePacket.setCode(2);
+            quitGroupResponsePacket.setGroupId(groupId);
+            quitGroupResponsePacket.setMessage("`"+groupId+"`群组不存在");
+        }
         channelHandlerContext.channel().writeAndFlush(quitGroupResponsePacket);
     }
 }
