@@ -1,5 +1,6 @@
 package netty.server.handler;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import netty.Command;
@@ -14,6 +15,7 @@ import java.util.Map;
  * @description
  * @date 2020-01-14
  */
+@ChannelHandler.Sharable
 public class IMHandler extends SimpleChannelInboundHandler<Packet> {
 
     public static final IMHandler INSTANCE = new IMHandler();

@@ -17,6 +17,8 @@ import netty.client.packet.MessageRequestPacket;
 import netty.client.packet.Spliter;
 import netty.codec.PacketDecoder;
 import netty.codec.PacketEncoder;
+import netty.handler.IMIdleStateHandler;
+import netty.server.handler.LifeCycleTestHandler;
 import netty.util.SessionUtil;
 
 import java.util.Scanner;
@@ -44,6 +46,7 @@ public class NettyClient {
                 .channel(NioSocketChannel.class)
                 .handler(new ChannelInitializer<NioSocketChannel>() {
                     protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
+                        nioSocketChannel.pipeline().addLast(new IMIdleStateHandler());
                         nioSocketChannel.pipeline().addLast(new Spliter());
                         nioSocketChannel.pipeline().addLast(new PacketDecoder());
                         nioSocketChannel.pipeline().addLast(LoginRequestHandler.INSTANCE);
@@ -54,6 +57,8 @@ public class NettyClient {
                         nioSocketChannel.pipeline().addLast(new GroupMessageRequestHandler());
                         nioSocketChannel.pipeline().addLast(MessageRequestHandler.INSTANCE);
                         nioSocketChannel.pipeline().addLast(new PacketEncoder());
+                        nioSocketChannel.pipeline().addLast(new LifeCycleTestHandler());
+                        nioSocketChannel.pipeline().addLast(new HeartBeatTimerHandler());
                     }
                 });
 

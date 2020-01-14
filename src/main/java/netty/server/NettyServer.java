@@ -11,6 +11,7 @@ import netty.client.packet.Spliter;
 import netty.codec.PacketCodecHandler;
 import netty.codec.PacketDecoder;
 import netty.codec.PacketEncoder;
+import netty.handler.IMIdleStateHandler;
 import netty.server.handler.*;
 
 /**
@@ -35,11 +36,13 @@ public class NettyServer {
                 .channel(NioServerSocketChannel.class) //绑定IO模型
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
+                        nioSocketChannel.pipeline().addLast(new IMIdleStateHandler());
                         nioSocketChannel.pipeline().addLast(new Spliter());
 //                        nioSocketChannel.pipeline().addLast(new LifeCycleTestHandler());
 //                        nioSocketChannel.pipeline().addLast(new PacketDecoder());
                         nioSocketChannel.pipeline().addLast(PacketCodecHandler.INSTANCE);
                         nioSocketChannel.pipeline().addLast(LoginResponseHandler.INSTANCE);
+                        nioSocketChannel.pipeline().addLast(HeartBeatResponseHandler.INSTANCE);
                         nioSocketChannel.pipeline().addLast(AuthHandler.INSTANCE);
                         nioSocketChannel.pipeline().addLast(IMHandler.INSTANCE);
 //                        nioSocketChannel.pipeline().addLast(CreateGroupResponseHandler.INSTANCE);

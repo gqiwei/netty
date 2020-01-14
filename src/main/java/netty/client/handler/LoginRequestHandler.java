@@ -21,14 +21,7 @@ import java.util.UUID;
 @ChannelHandler.Sharable
 public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginResponsePacket> {
     public static final LoginRequestHandler INSTANCE= new LoginRequestHandler();
-    @Override
-    public void channelActive(ChannelHandlerContext ctx){
-        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
-        loginRequestPacket.setPassword("123456");
-        loginRequestPacket.setUserId(UUID.randomUUID().toString());
-        loginRequestPacket.setUsername("gqw");
-//        ctx.channel().writeAndFlush(loginRequestPacket);
-    }
+
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, LoginResponsePacket loginResponsePacket) throws Exception {
